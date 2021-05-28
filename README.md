@@ -1,8 +1,7 @@
 Description
 -----------
 
-    Top down shooter game using Python Pygame. Implements mechanics such as movement, shooting, enemies,
-automatic spawning and collision detection.
+    Top down shooter game using Python Pygame. Implements mechanics such as movement, shooting, enemies, automatic spawning and collision detection.
 
 Requirements
 ------------
