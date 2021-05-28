@@ -1,3 +1,4 @@
+""" Configurable values for player, enemies, projectiles, powerups, tiles and screen. """
 
 # Screen
 SCREEN_SIZE = 800
