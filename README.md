@@ -6,5 +6,5 @@ Description
 Requirements
 ------------
 
-Pygame 1.9.6 or later
-Python 3.7.7 or later as recommended on Pygame.org
+Pygame 1.9.6 or later.
+Python 3.7.7 or later as recommended on Pygame.org.
