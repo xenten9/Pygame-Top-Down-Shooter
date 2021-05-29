@@ -11,13 +11,13 @@ class Player:
 
     def __init__(self, sprites, text, x, y):
         self.sprites = sprites
+        self.text = text
         self.x = x
         self.y = y
+
         self.health = 100
         self.shoot_cooldown = 0
         self.invincibility = 0
-        self.spawn_timer = SPAWN_TIMER
-        self.text = text
         self.kills = 0
 
         self.projectiles = []
@@ -47,14 +47,25 @@ class Player:
         kills_label = self.text.render("Kills: {}".format(self.kills), 1, (255, 255, 255))
         screen.blit(kills_label, (700, 20))
 
-    def shoot(self, assets, angle):
+    def update(self):
+
+        # Player shoot cooldown.
+        if self.shoot_cooldown > 0:
+            self.shoot_cooldown -= 1
+
+        # Player invincibility.
+        if self.invincibility > 0:
+            self.invincibility -= 1
+
+    def shoot(self, angle):
         """ Create a projectile object in the direction of the mouse from the center of the screen. """
 
         # Create a new projectile
-        self.projectiles.append(Projectile.Projectile(assets["player_projectile"],
+        self.projectiles.append(Projectile.Projectile(self.sprites[2],
             self.x + (PLAYER_SIZE / 2) - (PROJECTILE_SIZE / 2), self.y + (PLAYER_SIZE / 2) - (PROJECTILE_SIZE / 2), angle))
         
         self.shoot_cooldown = PLAYER_SHOOT_COOLDOWN
+
 
 def movement(player):
     """ Movement for the player. """
@@ -72,31 +83,24 @@ def movement(player):
     # NORTH WEST
     if keys[pygame.K_w] and keys[pygame.K_a]:
         x_change, y_change = check_bounds(player, -PLAYER_SPEED / math.sqrt(2), -PLAYER_SPEED / math.sqrt(2))
-
     # SOUTH WEST
     elif keys[pygame.K_s] and keys[pygame.K_a]:
         x_change, y_change = check_bounds(player, -PLAYER_SPEED / math.sqrt(2), PLAYER_SPEED / math.sqrt(2))
-
     # NORTH EAST
     elif keys[pygame.K_w] and keys[pygame.K_d]:
         x_change, y_change = check_bounds(player, PLAYER_SPEED / math.sqrt(2), -PLAYER_SPEED / math.sqrt(2))
-
     # SOUTH EAST
     elif keys[pygame.K_s] and keys[pygame.K_d]:
         x_change, y_change = check_bounds(player, PLAYER_SPEED / math.sqrt(2), PLAYER_SPEED / math.sqrt(2))
-
     # UP
     elif keys[pygame.K_w]:
         x_change, y_change = check_bounds(player, 0, -PLAYER_SPEED)
-
     # DOWN
     elif keys[pygame.K_s]:
         x_change, y_change = check_bounds(player, 0, PLAYER_SPEED)
-
     # LEFT
     elif keys[pygame.K_a]:
         x_change, y_change = check_bounds(player, -PLAYER_SPEED, 0)
-
     # RIGHT
     elif keys[pygame.K_d]:
         x_change, y_change = check_bounds(player, PLAYER_SPEED, 0)
@@ -130,8 +134,7 @@ def check_bounds(player, x_change, y_change):
 
     return x_change, y_change
 
-def mouse(player, assets):
-    """ Records the clicks and the position of the mouse along with what actions to take if the player clicks. """
+def mouse(player):
 
     clicks = pygame.mouse.get_pressed()
     position = pygame.mouse.get_pos()
@@ -140,7 +143,7 @@ def mouse(player, assets):
     if clicks[0]:
         if player.shoot_cooldown == 0:
             angle = math.atan2(position[1] - (SCREEN_SIZE / 2), position[0] - (SCREEN_SIZE / 2))
-            player.shoot(assets, angle)
+            player.shoot(angle)
 
 def closest_enemy(player, enemies):
     """ Get the enemies ordered by closest distance. This is needed to figure out what

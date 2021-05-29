@@ -15,6 +15,8 @@ class Projectile:
 
     def draw(self, screen, player):
 
+        # Need to get the displacement of the player from the initial position to determine where the sprite should be drawn
+        # relative to the player.
         screen.blit(self.sprite, (self.x - player.x + (SCREEN_SIZE / 2) - (PLAYER_SIZE / 2), self.y - player.y + (SCREEN_SIZE / 2) - (PLAYER_SIZE / 2)))
 
     def move(self):
@@ -46,11 +48,11 @@ def move_projectiles(player):
         elif projectile.y > LOWER_BORDER + PROJECTILE_SIZE:
             player.projectiles.remove(projectile)
 
-def check_collisions(player, enemies, dead_enemies, assets):
+def check_collisions(player, enemy_handler):
     """ Check if the projectiles collide with any enemies. """
 
     # Needed to determine which enemy is shot first.
-    ordered_enemies = Player.closest_enemy(player, enemies)
+    ordered_enemies = Player.closest_enemy(player, enemy_handler.enemies)
 
     for projectile in player.projectiles:
         points = [(projectile.x, projectile.y),
@@ -58,8 +60,8 @@ def check_collisions(player, enemies, dead_enemies, assets):
                   (projectile.x, projectile.y + PROJECTILE_SIZE),
                   (projectile.x + PROJECTILE_SIZE, projectile.y + PROJECTILE_SIZE)]
 
-        for enemy in enemies:
-            enemy.check_shot(player, enemies, dead_enemies, projectile, points, assets)
+        for enemy in enemy_handler.enemies:
+            enemy.check_shot(player, enemy_handler, projectile, points)
             
 
 

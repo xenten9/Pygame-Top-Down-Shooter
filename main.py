@@ -9,38 +9,9 @@ import Enemies
 import Projectile
 import Display
 
-def manage_time(player, enemies, dead_enemies, clock):
-    """ Manage the FPS and the time for every object. Does not need
-    to be a function but makes code look cleaner. """
-
-    # Iterate every 1 / 60 seconds.
-    clock.tick(60)
-
-    # Player shoot cooldown.
-    if player.shoot_cooldown > 0:
-        player.shoot_cooldown -= 1
-
-    # Player invincibility.
-    if player.invincibility > 0:
-        player.invincibility -= 1
-
-    # Enemy spawn delay.
-    if player.spawn_timer > 0:
-        player.spawn_timer -= 1
-
-    # Enemy random direction.
-    for enemy in enemies:
-        if enemy.random_direction_time > 0:
-            enemy.random_direction_time -= 1
-
-    # Dead enemy.
-    for dead_enemy in dead_enemies:
-        if dead_enemy.death_time > 0:
-            dead_enemy.death_time -= 1
-        else:
-            dead_enemies.remove(dead_enemy)
-
 def main():
+    """ Initializes pygame and contains the main game loop. Eventually the game loop will be separated
+    out into a function and main will call it. """
 
     # Initialize pygame, pygame.font, a screen, and a clock.
     pygame.init()
@@ -48,41 +19,44 @@ def main():
     screen = pygame.display.set_mode((SCREEN_SIZE, SCREEN_SIZE))
     clock = pygame.time.Clock()
 
-    # Display
+    # Load assets and create map
     assets = Display.load_assets()
     tiles = Display.create_map(assets)
 
-    # Create player.
-    player = Player.Player([assets["shooter"], assets["player"]], pygame.font.SysFont(pygame.font.get_default_font(), 30),
+    # Create the player
+    player = Player.Player([assets["shooter"], assets["player"], assets["player_projectile"]], 
+        pygame.font.SysFont(pygame.font.get_default_font(), 30),
         (SCREEN_SIZE / 2) - (PLAYER_SIZE / 2), (SCREEN_SIZE / 2) - (PLAYER_SIZE / 2))
 
-    enemies = []
-    dead_enemies = []
+    # Create the enemy handler
+    enemy_handler = Enemies.EnemyHandler([assets["chaser"], assets["shooter"]])
 
     alive = True
     while alive:
 
-        # Manage the time.
-        manage_time(player, enemies, dead_enemies, clock)
+        # Iterate every 1 / 60 seconds.
+        # This means that a cooldown of 60 is translated to a cooldown of 1 second...
+        clock.tick(60)
 
-        # If the player quits.
+        # If the player quits
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 alive = False
 
         # Player
         Player.movement(player)
-        Player.mouse(player, assets)
+        Player.mouse(player)
+        player.update()
 
         # Enemy
-        Enemies.spawn(player, enemies, assets)
-        Enemies.behaviour(player, enemies)
+        enemy_handler.spawn(player)
+        enemy_handler.update(player)
 
         # Projectile
         Projectile.move_projectiles(player)
-        Projectile.check_collisions(player, enemies, dead_enemies, assets)
+        Projectile.check_collisions(player, enemy_handler)
 
         # Screen
-        Display.draw_screen(screen, player, enemies, dead_enemies, tiles)
+        Display.draw_screen(screen, player, enemy_handler, tiles)
 
 main()
