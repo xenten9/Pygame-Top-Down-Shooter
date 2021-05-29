@@ -114,21 +114,18 @@ class Chaser:
 
         # Check for collision.
         for point in points:
-            if (point[0] - 25 > self.x and point[0] < self.x + ENEMY_SIZE and 
-                point[1] > self.y and point[1] - 25 < self.y + ENEMY_SIZE):
+            if (point[0] - (ENEMY_SIZE / 2) > self.x and point[0] < self.x + ENEMY_SIZE and 
+                point[1] > self.y and point[1] - (ENEMY_SIZE / 2) < self.y + ENEMY_SIZE):
 
                 # Actions for if enemy has been shot.
                 player.kills += 1
                 enemy_handler.dead_enemies.append(Dead_Enemies(enemy_handler.sprites[1], self.x, self.y, projectile.angle))
                 enemy_handler.enemies.remove(self)
+                player.projectiles.remove(projectile)
+                # Return true that the enemy has been shot
+                return True
 
-                # For some reason, sometimes the player projectile will be removed twice and cause an index error.
-                # This is the easiest solution, but something better would be good.
-                try:
-                    player.projectiles.remove(projectile)
-                except:
-                    pass
-                return
+        return False
 
 class Dead_Enemies:
 
@@ -222,7 +219,7 @@ def spawn_enemy(player, enemy_handler):
         # Spawn right of player.
         if spawn_quadrant == 2:
             picking_quadrant = spawn_area_horizontal(enemy_handler, 
-            RIGHT_BORDER - 50, 
+            RIGHT_BORDER - ENEMY_SIZE, 
             round(player.x + (SCREEN_SIZE / 2)), 
             UPPER_BORDER, 
             LOWER_BORDER - ENEMY_SIZE)

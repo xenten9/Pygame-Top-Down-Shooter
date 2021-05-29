@@ -27,10 +27,10 @@ class Player:
 
         # Create a flicker effect whilst having invincibility.
         if self.invincibility % 2 == 0:
-            screen.blit(self.sprites[1], ((SCREEN_SIZE / 2) - (PLAYER_SIZE / 2), (SCREEN_SIZE / 2) - (PLAYER_SIZE / 2)))
+            screen.blit(self.sprites[0], ((SCREEN_SIZE / 2) - (PLAYER_SIZE / 2), (SCREEN_SIZE / 2) - (PLAYER_SIZE / 2)))
 
         if self.invincibility % 2 == 1:
-            screen.blit(self.sprites[0], ((SCREEN_SIZE / 2) - (PLAYER_SIZE / 2), (SCREEN_SIZE / 2) - (PLAYER_SIZE / 2)))
+            screen.blit(self.sprites[1], ((SCREEN_SIZE / 2) - (PLAYER_SIZE / 2), (SCREEN_SIZE / 2) - (PLAYER_SIZE / 2)))
 
     def display_healthbar(self, screen):
         """ Create a healthbar by multiplying player health times the desired size. """

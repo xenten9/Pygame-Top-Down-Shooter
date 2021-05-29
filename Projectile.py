@@ -61,7 +61,9 @@ def check_collisions(player, enemy_handler):
                   (projectile.x + PROJECTILE_SIZE, projectile.y + PROJECTILE_SIZE)]
 
         for enemy in enemy_handler.enemies:
-            enemy.check_shot(player, enemy_handler, projectile, points)
+            enemy_shot = enemy.check_shot(player, enemy_handler, projectile, points)
+            if enemy_shot:
+                break
             
 
 

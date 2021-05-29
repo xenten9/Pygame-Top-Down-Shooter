@@ -25,12 +25,13 @@ def load_assets():
 
     # Load player assets
     assets["player"] = pygame.transform.scale(pygame.image.load("assets/player.png"), (PLAYER_SIZE, PLAYER_SIZE))
+    assets["player_hit"] = pygame.transform.scale(pygame.image.load("assets/shooter.png"), (PLAYER_SIZE, PLAYER_SIZE))
     assets["player_projectile"] = pygame.transform.scale(pygame.image.load("assets/player.png"), (PROJECTILE_SIZE, PROJECTILE_SIZE))
 
     # Load the enemy assets
     assets["chaser"] = pygame.transform.scale(pygame.image.load("assets/chaser.png"), (ENEMY_SIZE, ENEMY_SIZE))
-    assets["shooter"] = pygame.transform.scale(pygame.image.load("assets/shooter.png"), (ENEMY_SIZE, ENEMY_SIZE))
     assets["shooter_projectile"] = pygame.transform.scale(pygame.image.load("assets/shooter.png"), (PROJECTILE_SIZE, PROJECTILE_SIZE))
+    assets["dead_enemy"] = pygame.transform.scale(pygame.image.load("assets/shooter.png"), (ENEMY_SIZE, ENEMY_SIZE))
 
     # Load the map assets
     assets["floor_tile"] = pygame.transform.scale(pygame.image.load("assets/floor_tile.png"), (TILE_SIZE, TILE_SIZE))

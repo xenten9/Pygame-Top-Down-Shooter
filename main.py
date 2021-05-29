@@ -24,12 +24,12 @@ def main():
     tiles = Display.create_map(assets)
 
     # Create the player
-    player = Player.Player([assets["shooter"], assets["player"], assets["player_projectile"]], 
+    player = Player.Player([assets["player"], assets["player_hit"], assets["player_projectile"]], 
         pygame.font.SysFont(pygame.font.get_default_font(), 30),
         (SCREEN_SIZE / 2) - (PLAYER_SIZE / 2), (SCREEN_SIZE / 2) - (PLAYER_SIZE / 2))
 
     # Create the enemy handler
-    enemy_handler = Enemies.EnemyHandler([assets["chaser"], assets["shooter"]])
+    enemy_handler = Enemies.EnemyHandler([assets["chaser"], assets["dead_enemy"]])
 
     alive = True
     while alive:
