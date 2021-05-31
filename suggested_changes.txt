@@ -1,0 +1,58 @@
+## Non-Started
+
+    Move constants that relate to a specific class to within that class.
+        NOTE there are some exceptions to this such as screen size but IG, its better form.
+
+    Rename all files to be lowercase.
+        NOTE Excluding README.md.
+
+    Create a class to encapsulate all screen/display actions.
+        NOTE this would have method taht would allow for the rendering
+        of images at a given position on the screen.
+
+    Generalize display actions to avoid having to change two places at once.
+        NOTE as an example of this instead of having it have a draw class which
+        iterates over all of the objects in their different handlers,
+        it would be better for it to receive instructions from all of
+        the objects which were called somewhere else.
+
+    Add a overarching object handler/handler handler.
+        NOTE this may come in the form of just ObjHandler and have methods like:
+        ObjHandler.draw() => Call all objecsts .draw() methods
+        ObjHandler.update() => Call all objecsts .update() methods
+
+    Make sure no line in a file exceeds 79 characters.
+        NOTE this would allow you to dual screen two code blocks at a normal size.
+
+    Use more from w import x, y, z.
+        NOTE This allows for a lot less refference when importing.
+        EX.
+            import pygame
+            pygame.image.load()
+
+            from pygame import image
+            image.load()
+        this simplifies things a great deal.
+        although it should be noted that namespaces can be a bit vague.
+        in order to improve this you could do one of two things
+            import pygame as pg
+            pg.image.load()
+
+            from pygame import image as pgimage
+            pgimage.load()
+        both of these aren't perfect, but as you project becomes more encapsulated,
+        it will make more sense.
+
+    Remove all examples of * imports.
+        NOTE this isn't required but it is good practice to do so.
+
+
+## Started
+
+
+
+## Complete
+
+    Expand the gitignore.
+        NOTE a lot of parts of the gitignore are not required in the
+        immediate state of the project but in future may be required.
